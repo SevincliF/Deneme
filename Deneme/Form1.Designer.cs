@@ -21,7 +21,10 @@
             this.lblTypeBUsers = new System.Windows.Forms.Label();
             this.txtTypeAUsers = new System.Windows.Forms.TextBox();
             this.txtTypeBUsers = new System.Windows.Forms.TextBox();
+            this.dataGridViewResults = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
             this.SuspendLayout();
+
             // 
             // btnStartSimulation
             // 
@@ -32,20 +35,22 @@
             this.btnStartSimulation.Text = "Start Simulation";
             this.btnStartSimulation.UseVisualStyleBackColor = true;
             this.btnStartSimulation.Click += new System.EventHandler(this.btnStartSimulation_Click);
+
             // 
             // comboBoxIsolationLevel
             // 
             this.comboBoxIsolationLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxIsolationLevel.FormattingEnabled = true;
             this.comboBoxIsolationLevel.Items.AddRange(new object[] {
-            "Read Uncommitted",
-            "Read Committed",
-            "Repeatable Read",
-            "Serializable"});
+                "Read Uncommitted",
+                "Read Committed",
+                "Repeatable Read",
+                "Serializable"});
             this.comboBoxIsolationLevel.Location = new System.Drawing.Point(50, 200);
             this.comboBoxIsolationLevel.Name = "comboBoxIsolationLevel";
             this.comboBoxIsolationLevel.Size = new System.Drawing.Size(200, 24);
             this.comboBoxIsolationLevel.TabIndex = 5;
+
             // 
             // lblTypeAUsers
             // 
@@ -55,6 +60,7 @@
             this.lblTypeAUsers.Size = new System.Drawing.Size(90, 16);
             this.lblTypeAUsers.TabIndex = 2;
             this.lblTypeAUsers.Text = "Type A Users";
+
             // 
             // lblTypeBUsers
             // 
@@ -64,6 +70,7 @@
             this.lblTypeBUsers.Size = new System.Drawing.Size(90, 16);
             this.lblTypeBUsers.TabIndex = 3;
             this.lblTypeBUsers.Text = "Type B Users";
+
             // 
             // txtTypeAUsers
             // 
@@ -71,6 +78,7 @@
             this.txtTypeAUsers.Name = "txtTypeAUsers";
             this.txtTypeAUsers.Size = new System.Drawing.Size(100, 22);
             this.txtTypeAUsers.TabIndex = 4;
+
             // 
             // txtTypeBUsers
             // 
@@ -78,12 +86,25 @@
             this.txtTypeBUsers.Name = "txtTypeBUsers";
             this.txtTypeBUsers.Size = new System.Drawing.Size(100, 22);
             this.txtTypeBUsers.TabIndex = 5;
+
+            // 
+            // dataGridViewResults
+            // 
+            this.dataGridViewResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewResults.Location = new System.Drawing.Point(50, 300);
+            this.dataGridViewResults.Name = "dataGridViewResults";
+            this.dataGridViewResults.RowHeadersWidth = 51;
+            this.dataGridViewResults.RowTemplate.Height = 24;
+            this.dataGridViewResults.Size = new System.Drawing.Size(700, 200);
+            this.dataGridViewResults.TabIndex = 6;
+
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 550);
+            this.Controls.Add(this.dataGridViewResults);
             this.Controls.Add(this.comboBoxIsolationLevel);
             this.Controls.Add(this.txtTypeBUsers);
             this.Controls.Add(this.txtTypeAUsers);
@@ -92,6 +113,7 @@
             this.Controls.Add(this.btnStartSimulation);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -102,5 +124,6 @@
         private System.Windows.Forms.Label lblTypeBUsers;
         private System.Windows.Forms.TextBox txtTypeAUsers;
         private System.Windows.Forms.TextBox txtTypeBUsers;
+        private System.Windows.Forms.DataGridView dataGridViewResults;
     }
 }

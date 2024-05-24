@@ -49,7 +49,7 @@ namespace Deneme
                         deadlockCount++;
                         transaction.Rollback();
                     }
-                    catch (Exception)
+                    catch
                     {
                         transaction.Rollback();
                     }
@@ -57,12 +57,11 @@ namespace Deneme
             }
 
             stopwatch.Stop();
-            long elapsed = stopwatch.ElapsedMilliseconds / 100;
 
             results.Add(new SimulationResults
             {
                 TypeAUserCount = 1,
-                AverageDurationTypeA = elapsed,
+                AverageDurationTypeA = stopwatch.ElapsedMilliseconds / 100,
                 DeadlocksTypeA = deadlockCount
             });
         }
@@ -101,7 +100,7 @@ namespace Deneme
                         deadlockCount++;
                         transaction.Rollback();
                     }
-                    catch (Exception)
+                    catch
                     {
                         transaction.Rollback();
                     }
@@ -109,19 +108,24 @@ namespace Deneme
             }
 
             stopwatch.Stop();
-            long elapsed = stopwatch.ElapsedMilliseconds / 100;
 
             results.Add(new SimulationResults
             {
                 TypeBUserCount = 1,
-                AverageDurationTypeB = elapsed,
+                AverageDurationTypeB = stopwatch.ElapsedMilliseconds / 100,
                 DeadlocksTypeB = deadlockCount
             });
         }
 
         private void ExecuteUpdateQuery(SqlCommand cmd, string beginDate, string endDate)
         {
-            cmd.CommandText = "UPDATE Sales.SalesOrderDetail SET UnitPrice = UnitPrice * 10.0 / 10.0 WHERE UnitPrice > 100 AND EXISTS (SELECT * FROM Sales.SalesOrderHeader WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID AND Sales.SalesOrderHeader.OrderDate BETWEEN @BeginDate AND @EndDate AND Sales.SalesOrderHeader.OnlineOrderFlag = 1)";
+            cmd.CommandText = "UPDATE Sales.SalesOrderDetail " +
+                              "SET UnitPrice = UnitPrice * 10.0 / 10.0 " +
+                              "WHERE UnitPrice > 100 " +
+                              "AND EXISTS (SELECT * FROM Sales.SalesOrderHeader " +
+                              "WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID " +
+                              "AND Sales.SalesOrderHeader.OrderDate BETWEEN @BeginDate AND @EndDate " +
+                              "AND Sales.SalesOrderHeader.OnlineOrderFlag = 1)";
             cmd.Parameters.AddWithValue("@BeginDate", beginDate);
             cmd.Parameters.AddWithValue("@EndDate", endDate);
             cmd.ExecuteNonQuery();
@@ -129,7 +133,13 @@ namespace Deneme
 
         private void ExecuteSelectQuery(SqlCommand cmd, string beginDate, string endDate)
         {
-            cmd.CommandText = "SELECT SUM(Sales.SalesOrderDetail.OrderQty) FROM Sales.SalesOrderDetail WHERE UnitPrice > 100 AND EXISTS (SELECT * FROM Sales.SalesOrderHeader WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID AND Sales.SalesOrderHeader.OrderDate BETWEEN @BeginDate AND @EndDate AND Sales.SalesOrderHeader.OnlineOrderFlag = 1)";
+            cmd.CommandText = "SELECT SUM(Sales.SalesOrderDetail.OrderQty) " +
+                              "FROM Sales.SalesOrderDetail " +
+                              "WHERE UnitPrice > 100 " +
+                              "AND EXISTS (SELECT * FROM Sales.SalesOrderHeader " +
+                              "WHERE Sales.SalesOrderHeader.SalesOrderID = Sales.SalesOrderDetail.SalesOrderID " +
+                              "AND Sales.SalesOrderHeader.OrderDate BETWEEN @BeginDate AND @EndDate " +
+                              "AND Sales.SalesOrderHeader.OnlineOrderFlag = 1)";
             cmd.Parameters.AddWithValue("@BeginDate", beginDate);
             cmd.Parameters.AddWithValue("@EndDate", endDate);
             cmd.ExecuteScalar();

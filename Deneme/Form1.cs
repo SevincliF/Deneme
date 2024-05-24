@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace Deneme
         {
             if (int.TryParse(txtTypeAUsers.Text, out int numTypeAUsers) && int.TryParse(txtTypeBUsers.Text, out int numTypeBUsers))
             {
-                IsolationLevel isolationLevel = IsolationLevel.ReadCommitted;
+                IsolationLevel isolationLevel = IsolationLevel.ReadCommitted; // Varsayılan olarak
 
                 if (comboBoxIsolationLevel.SelectedItem != null)
                 {
@@ -53,13 +54,9 @@ namespace Deneme
 
         private void DisplayResults(List<SimulationResults> results)
         {
-            string output = "Results:\n";
-            foreach (var result in results)
-            {
-                output += $"Type A Users: {result.TypeAUserCount}, Duration: {result.AverageDurationTypeA}, Deadlocks: {result.DeadlocksTypeA}\n";
-                output += $"Type B Users: {result.TypeBUserCount}, Duration: {result.AverageDurationTypeB}, Deadlocks: {result.DeadlocksTypeB}\n";
-            }
-            MessageBox.Show(output);
+            var bindingList = new BindingList<SimulationResults>(results);
+            var source = new BindingSource(bindingList, null);
+            dataGridViewResults.DataSource = source;
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
