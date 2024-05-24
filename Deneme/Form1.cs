@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -9,7 +8,7 @@ namespace Deneme
 {
     public partial class Form1 : Form
     {
-        private string connectionString = "Data Source=DESKTOP-F5PN9DA\\MSSQLSERVER01;Initial Catalog=AdventureWorks2012;Integrated Security=True";
+        private string connectionString = "Data Source=DESKTOP-F5PN9DA\\MSSQLSERVER01;Initial Catalog=AdventureWorks2012;Integrated Security=True;TrustServerCertificate=True;Max Pool Size=200;Connection Timeout=800;";
         private SimulationManager simulationManager;
 
         public Form1()
@@ -18,11 +17,11 @@ namespace Deneme
             simulationManager = new SimulationManager(connectionString);
         }
 
-        private void btnStartSimulation_Click(object sender, EventArgs e)
+        private void BtnStartSimulation_Click(object sender, EventArgs e)
         {
             if (int.TryParse(txtTypeAUsers.Text, out int numTypeAUsers) && int.TryParse(txtTypeBUsers.Text, out int numTypeBUsers))
             {
-                IsolationLevel isolationLevel = IsolationLevel.ReadCommitted; // Varsayılan olarak
+                IsolationLevel isolationLevel = IsolationLevel.ReadCommitted;
 
                 if (comboBoxIsolationLevel.SelectedItem != null)
                 {
@@ -54,12 +53,16 @@ namespace Deneme
 
         private void DisplayResults(List<SimulationResults> results)
         {
-            var bindingList = new BindingList<SimulationResults>(results);
-            var source = new BindingSource(bindingList, null);
-            dataGridViewResults.DataSource = source;
+            string resultText = "Simulation Results:\n";
+            foreach (var result in results)
+            {
+                resultText += $"Type A Users: {result.TypeAUserCount}, Avg Duration: {result.AverageDurationTypeA}, Deadlocks: {result.DeadlocksTypeA}\n";
+                resultText += $"Type B Users: {result.TypeBUserCount}, Avg Duration: {result.AverageDurationTypeB}, Deadlocks: {result.DeadlocksTypeB}\n";
+            }
+            MessageBox.Show(resultText);
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void BtnConnect_Click(object sender, EventArgs e)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {

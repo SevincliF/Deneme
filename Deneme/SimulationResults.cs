@@ -1,4 +1,6 @@
-﻿namespace Deneme
+﻿using System;
+
+namespace Deneme
 {
     public class SimulationResults
     {
