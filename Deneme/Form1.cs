@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections.Generic;
 
 namespace Deneme
 {
@@ -17,7 +17,7 @@ namespace Deneme
             simulationManager = new SimulationManager(connectionString);
         }
 
-        private void BtnStartSimulation_Click(object sender, EventArgs e)
+        private void btnStartSimulation_Click(object sender, EventArgs e)
         {
             if (int.TryParse(txtTypeAUsers.Text, out int numTypeAUsers) && int.TryParse(txtTypeBUsers.Text, out int numTypeBUsers))
             {
@@ -53,16 +53,16 @@ namespace Deneme
 
         private void DisplayResults(List<SimulationResults> results)
         {
-            string resultText = "Simulation Results:\n";
-            foreach (var result in results)
+            dataGridView1.DataSource = results;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
-                resultText += $"Type A Users: {result.TypeAUserCount}, Avg Duration: {result.AverageDurationTypeA}, Deadlocks: {result.DeadlocksTypeA}\n";
-                resultText += $"Type B Users: {result.TypeBUserCount}, Avg Duration: {result.AverageDurationTypeB}, Deadlocks: {result.DeadlocksTypeB}\n";
+                column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
-            MessageBox.Show(resultText);
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void BtnConnect_Click(object sender, EventArgs e)
+        private void btnConnect_Click(object sender, EventArgs e)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
